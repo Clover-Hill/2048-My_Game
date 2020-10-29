@@ -1,5 +1,6 @@
 import constants as c
 import random
+from copy import deepcopy
 
 def new_matrix():
     matrix=[]
@@ -7,27 +8,31 @@ def new_matrix():
         matrix.append([0]*c.LEN)
     return matrix
 
-def add_2or4(matrix):
+def add_2or4(_matrix):
+    matrix=deepcopy(_matrix)
+
     full=True
     for row in range(c.LEN):
         for col in range(c.LEN):
             if matrix[row][col]==0: full= False
     if full: return matrix
     
-    row=random.randint(0,c.LEN-1)
-    col=random.randint(0,c.LEN-1)
     flag=random.randint(0,1)
     if flag: val=2
     else: val=4
     
-    while matrix[row][col]!=0:
-        row=random.randint(0,c.LEN-1)
-        col=random.randint(0,c.LEN-1)
-        
+    empty_cells=list()
+    for x in range(c.LEN):
+        for y in range(c.LEN):
+            if matrix[x][y]==0:
+                empty_cells.append([x,y])
+    row,col=empty_cells[random.randint(0,len(empty_cells)-1)]
     matrix[row][col]=val
     return matrix
 
-def merge(matrix):
+def merge(_matrix):
+    matrix=deepcopy(_matrix)
+
     for row in range(0,c.LEN):
         lst_pos=c.LEN
         lst_val=-100
@@ -51,7 +56,9 @@ def merge(matrix):
                 lst_val=matrix[row][col]
     return matrix
 
-def erase_space(matrix):
+def erase_space(_matrix):
+    matrix=deepcopy(_matrix)
+
     for row in range(0,c.LEN):
         count=0
         for col in range(0,c.LEN):
@@ -61,7 +68,9 @@ def erase_space(matrix):
                 count+=1
     return matrix
     
-def rotate(matrix):
+def rotate(_matrix):
+    matrix=deepcopy(_matrix)
+
     new_matrix=[]
     for row in range(0,c.LEN):
         new_row=[]
@@ -70,7 +79,9 @@ def rotate(matrix):
         new_matrix.append(new_row)
     return new_matrix
 
-def check_status(matrix):
+def check_status(_matrix):
+    matrix=deepcopy(_matrix)
+
     win=False
     lose=True
     
@@ -92,13 +103,17 @@ def check_status(matrix):
     else: return "lose"
 
 #movement Commands return (Status , matrix)
-def Left(matrix):
+def Left(_matrix):
+    matrix=deepcopy(_matrix)
+
     matrix=merge(matrix)
     matrix=erase_space(matrix)
     
     return (matrix)
     
-def Right(matrix):
+def Right(_matrix):
+    matrix=deepcopy(_matrix)
+
     for i in range(0,2):
         matrix=rotate(matrix)
     matrix=Left(matrix)
@@ -106,7 +121,9 @@ def Right(matrix):
         matrix=rotate(matrix)
     return (matrix)
 
-def Up(matrix):
+def Up(_matrix):
+    matrix=deepcopy(_matrix)
+
     for i in range(0,1):
         matrix=rotate(matrix)
     matrix=Left(matrix)
@@ -114,7 +131,9 @@ def Up(matrix):
         matrix=rotate(matrix)
     return (matrix)
     
-def Down(matrix):
+def Down(_matrix):
+    matrix=deepcopy(_matrix)
+
     for i in range(0,3):
         matrix=rotate(matrix)
     matrix=Left(matrix)

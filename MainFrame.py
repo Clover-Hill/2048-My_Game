@@ -2,7 +2,6 @@ from tkinter import *
 
 import constants as c
 import logic
-import random
 
 class MainFrame(Frame):
     def __init__(self):
@@ -17,10 +16,10 @@ class MainFrame(Frame):
             c.KEY_LEFT: logic.Left,
             c.KEY_RIGHT: logic.Right,
 
-            c.KEY_DOWN_ALT: logic.Down,
-            c.KEY_UP_ALT: logic.Up,
-            c.KEY_LEFT_ALT: logic.Left,
-            c.KEY_RIGHT_ALT: logic.Right,
+            # c.KEY_DOWN_ALT: logic.Down,
+            # c.KEY_UP_ALT: logic.Up,
+            # c.KEY_LEFT_ALT: logic.Left,
+            # c.KEY_RIGHT_ALT: logic.Right,
         }
         
         self.grid_cells=[]
@@ -30,7 +29,8 @@ class MainFrame(Frame):
         self.Init_Matrix()
         self.Update_Cells()
 
-        self.mainloop()
+        if __name__ == "__main__":
+            self.mainloop()
 
     def Init_Grid(self):
         Background=Frame(self,bg=c.BACKGROUND_COLOR_GAME,width=c.SIZE,height=c.SIZE)
@@ -58,10 +58,10 @@ class MainFrame(Frame):
             for y in range(c.LEN):
                 val=self.matrix[x][y]
                 if val==0:
-                    self.grid_cells[x][y].config(text="",bg=c.BACKGROUND_COLOR_CELL_EMPTY)
+                    self.grid_cells[x][y].configure(text="",bg=c.BACKGROUND_COLOR_CELL_EMPTY)
                 else:
-                    self.grid_cells[x][y].config(text=str(val),font=c.FONT,fg=c.CELL_COLOR_DICT[val],bg=c.BACKGROUND_COLOR_DICT[val])
-        self.update_idletasks()
+                    self.grid_cells[x][y].configure(text=str(val),font=c.FONT,fg=c.CELL_COLOR_DICT[val],bg=c.BACKGROUND_COLOR_DICT[val])
+        self.update()
     
     def key_down(self,event):
         key=repr(event.char)
